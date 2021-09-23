@@ -1,4 +1,12 @@
-create table products (id bigserial primary key, title varchar(255), price int);
+create table products
+(
+    id          bigserial primary key,
+    title       varchar(255),
+    price       int,
+    created_at  timestamp default current_timestamp,
+    updated_at  timestamp default current_timestamp
+);
+
 insert into products (title, price) values ('Bread', 25), ('Milk', 80), ('Cheese', 450), ('Oil', 560), ('Potato', 95);
 insert into products (title, price) values ('Onion', 34), ('Garlic', 40), ('Pepper', 85), ('Carrot', 120), ('Cucumber', 95);
 insert into products (title, price) values ('Meat', 600), ('Spices', 225), ('Water', 91), ('Apple', 65), ('Orange', 75);
@@ -24,28 +32,33 @@ create table roles
 
 CREATE TABLE users_roles
 (
-    user_id bigint not null references users (id),
-    role_id bigint not null references roles (id),
+    user_id     bigint not null references users (id),
+    role_id     bigint not null references roles (id),
     primary key (user_id, role_id)
 );
 
 CREATE TABLE orders
 (
-    id bigserial primary key,
-    order_name VARCHAR(255),
-    total_price INT,
-    user_id bigint REFERENCES users (id),
-    order_data timestamp default current_timestamp
+    id              bigserial primary key,
+    order_name      VARCHAR(255),
+    total_price     INT,
+    user_id         bigint REFERENCES users (id),
+    address         VARCHAR(255),
+    phone           VARCHAR(255),
+    created_at      timestamp default current_timestamp,
+    updated_at      timestamp default current_timestamp
 );
 
 CREATE TABLE order_items
 (
-    id bigserial primary key,
-    quantity INT,
-    price_per_product INT,
-    price INT,
-    order_id bigint REFERENCES orders (id),
-    product_id bigint REFERENCES products (id)
+    id                  bigserial primary key,
+    quantity            INT,
+    price_per_product   INT,
+    price               INT,
+    order_id            bigint REFERENCES orders (id),
+    product_id          bigint REFERENCES products (id),
+    created_at          timestamp default current_timestamp,
+    updated_at          timestamp default current_timestamp
 );
 
 insert into roles (name)

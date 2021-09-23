@@ -2,7 +2,7 @@ angular.module('storefront').controller('orderConfirmationController', function 
     const contextPath = 'http://localhost:8080/shop/';
 
     $scope.showCart = function() {
-        $http.get(contextPath + 'api/v1/cart')
+        $http.get(contextPath + 'api/v1/0/cart')
         .then(function (response) {
             $scope.cart = response.data;
         });

@@ -1,4 +1,4 @@
-angular.module('storefront').controller('storeController', function ($scope, $http, $routeParams, $location, $rootScope) {
+angular.module('storefront').controller('storeController', function ($scope, $http, $routeParams, $location, $rootScope, $localStorage) {
     const contextPath = 'http://localhost:8080/shop/';
     let currentPageIndex = 1;
 
@@ -19,7 +19,7 @@ angular.module('storefront').controller('storeController', function ($scope, $ht
 
      $scope.addToCart = function (productId) {
             $http({
-                url: contextPath + 'api/v1/cart/add/' + productId,
+                url: contextPath + 'api/v1/cart/' + $localStorage.webMarketGuestCartId + '/add/' + productId,
                 method: 'GET',
             }).then(function (response) {
 

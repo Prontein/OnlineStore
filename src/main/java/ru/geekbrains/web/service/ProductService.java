@@ -40,4 +40,8 @@ public class ProductService {
         product.setTitle(productDTO.getTitle());
         product.setPrice(productDTO.getPrice());
     }
+
+    public Optional<Product> findByTitle(String title) {
+        return productRepository.findByTitle(title);
+    }
 }

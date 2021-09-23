@@ -34,14 +34,26 @@
                 templateUrl: 'registration/registration.html',
                 controller: 'registrationUserController'
             })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
     }
 
     function run($rootScope, $http, $localStorage) {
+        const contextPath = 'http://localhost:8080/shop';
         if ($localStorage.webMarketUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.webMarketUser.token;
+        }
+
+        if (!$localStorage.webMarketGuestCartId) {
+            $http.get(contextPath + '/api/v1/cart/generate')
+                .then(function successCallback(response) {
+                    $localStorage.webMarketGuestCartId = response.data.value;
+                });
         }
     }
 })();
@@ -58,6 +70,10 @@ angular.module('storefront').controller('indexController', function ($rootScope,
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+
+                    $http.get(contextPath + '/api/v1/cart/' + $localStorage.webMarketGuestCartId + '/merge')
+                        .then(function successCallback(response) {
+                        });
                 }
             }, function errorCallback(response) {
             });
