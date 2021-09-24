@@ -2,7 +2,7 @@ angular.module('storefront').controller('orderConfirmationController', function 
     const contextPath = 'http://localhost:8080/shop/';
 
     $scope.showCart = function() {
-        $http.get(contextPath + 'api/v1/0/cart')
+        $http.get(contextPath + 'api/v1/cart/0')
         .then(function (response) {
             $scope.cart = response.data;
         });
@@ -16,7 +16,7 @@ angular.module('storefront').controller('orderConfirmationController', function 
 
         })
         .then(function (response) {
-            alert("Ваш казак успешно сформирован");
+            alert("Ваш заказ успешно сформирован");
             $location.path('/');
         });
     }
