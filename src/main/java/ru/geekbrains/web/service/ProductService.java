@@ -9,12 +9,17 @@ import ru.geekbrains.web.dtos.ProductDTO;
 import ru.geekbrains.web.exceptions.ResourceNotFoundException;
 import ru.geekbrains.web.model.Product;
 import ru.geekbrains.web.repositories.ProductRepository;
+import ru.geekbrains.web.soap.products.ProductSoapDTO;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+
 public class ProductService {
     private final ProductRepository productRepository;
 
@@ -43,5 +48,21 @@ public class ProductService {
 
     public Optional<Product> findByTitle(String title) {
         return productRepository.findByTitle(title);
+    }
+
+    public static final Function<Product, ProductSoapDTO> functionEntityToSoap = prod -> {
+        ProductSoapDTO prodSoap = new ProductSoapDTO();
+        prodSoap.setId(prod.getId());
+        prodSoap.setTitle(prod.getTitle());
+        prodSoap.setPrice(prod.getPrice());
+        return prodSoap;
+    };
+
+    public List<ProductSoapDTO> getAllProductsForSoap() {
+        return productRepository.findAll().stream().map(functionEntityToSoap).collect(Collectors.toList());
+    }
+
+    public ProductSoapDTO findByTitleForSoap(String title) {
+        return productRepository.findByTitle(title).map(functionEntityToSoap).orElseThrow(() -> new ResourceNotFoundException("ProductSoapDTO title = " + title + " not found"));
     }
 }
