@@ -1,5 +1,6 @@
 package ru.geekbrains.web.utils;
 
+import lombok.Data;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,57 +9,46 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 @Aspect
 @Component
+@Data
 public class AppLoggingAspect {
+    //    private final StatisticMessageDTO statisticMessageDTO;
+    private ConcurrentHashMap<String, Long> serviceMap;
+
     private static Logger logger = LoggerFactory.getLogger(AppLoggingAspect.class);
     long durationCartService;
     long durationOrderService;
     long durationProductService;
     long durationUserService;
 
-    @Around("execution(public * ru.geekbrains.web.service.CartService.*(..))")
-    public Object cartMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    @PostConstruct
+    public void initServiceMap() {
+        this.serviceMap = new ConcurrentHashMap<>();
+    }
+
+    @Around("execution(public * ru.geekbrains.web.service.*Service.*(..))")
+    public Object servicesStats(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long begin = System.currentTimeMillis();
         Object out = proceedingJoinPoint.proceed();
         long end = System.currentTimeMillis();
         long duration = end - begin;
-        durationCartService += duration;
-        logger.info("Продолжительность работы CartService: " + duration + " ms" + "\tОбщее время работы CartService: " + durationCartService + " ms");
+        setServiceMap(proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName(), duration);
+
         return out;
     }
 
-    @Around("execution(public * ru.geekbrains.web.service.OrderService.*(..))")
-    public Object orderMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        long begin = System.currentTimeMillis();
-        Object out = proceedingJoinPoint.proceed();
-        long end = System.currentTimeMillis();
-        long duration = end - begin;
-        durationOrderService += duration;
-        logger.info("Продолжительность работы OrderService: " + duration + " ms" + "\tОбщее время работы OrderService: " + durationOrderService + " ms");
-        return out;
-    }
-
-    @Around("execution(public * ru.geekbrains.web.service.ProductService.*(..))")
-    public Object productMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        long begin = System.currentTimeMillis();
-        Object out = proceedingJoinPoint.proceed();
-        long end = System.currentTimeMillis();
-        long duration = end - begin;
-        durationProductService += duration;
-        logger.info("Продолжительность работы ProductService: " + duration + " ms" + "\tОбщее время работы ProductService: " + durationProductService + " ms");
-        return out;
-    }
-
-    @Around("execution(public * ru.geekbrains.web.service.UserService.*(..))")
-    public Object userMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        long begin = System.currentTimeMillis();
-        Object out = proceedingJoinPoint.proceed();
-        long end = System.currentTimeMillis();
-        long duration = end - begin;
-        durationUserService += duration;
-        logger.info("Продолжительность работы UserService: " + duration + " ms" + "\tОбщее время работы UserService: " + durationUserService + " ms");
-        return out;
+    public void setServiceMap(String serviceName, long duration) {
+        if (serviceMap.containsKey(serviceName)) {
+            serviceMap.put(serviceName, serviceMap.get(serviceName) + duration);
+        } else {
+            serviceMap.put(serviceName, duration);
+        }
+        logger.info("Продолжительность работы " + serviceName + ": " + duration + " ms" +
+                "\tОбщее время работы " + serviceName +": " + serviceMap.get(serviceName) + " ms");
     }
 }
