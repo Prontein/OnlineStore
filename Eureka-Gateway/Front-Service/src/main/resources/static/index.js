@@ -1,4 +1,4 @@
-angular.module('app', []).controller('indexController', function ($scope, $http) {
+angular.module('store', []).controller('indexController', function ($scope, $http) {
 
     $scope.loadProducts = function () {
         $http({
