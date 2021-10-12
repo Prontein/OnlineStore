@@ -1,3 +1,4 @@
+
 create table products
 (
     id          bigserial primary key,
@@ -7,10 +8,9 @@ create table products
     updated_at  timestamp default current_timestamp
 );
 
-insert into products (title, price) values ('Bread', 25), ('Milk', 80), ('Cheese', 450), ('Oil', 560), ('Potato', 95);
-insert into products (title, price) values ('Onion', 34), ('Garlic', 40), ('Pepper', 85), ('Carrot', 120), ('Cucumber', 95);
-insert into products (title, price) values ('Meat', 600), ('Spices', 225), ('Water', 91), ('Apple', 65), ('Orange', 75);
-insert into products (title, price) values ('Juice', 165), ('Lemon', 68), ('Corn', 195), ('Tomato', 130), ('Cabbage', 170);
+insert into products (title, price) values ('Test_product_1', 25), ('Test_product_2', 80), ('Test_product_3', 450);
+insert into products (title, price) values ('Test_product_4', 34), ('Test_product_5', 40), ('Test_product_6', 85);
+
 
 create table users
 (
@@ -22,6 +22,11 @@ create table users
     updated_at timestamp default current_timestamp
 );
 
+insert into users (username, password, email)
+values  ('Test_user_1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'email1'),
+        ('Test_user_2', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'email2'),
+        ('Test_user_3', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'email3');
+
 create table roles
 (
     id         bigserial primary key,
@@ -30,12 +35,21 @@ create table roles
     updated_at timestamp default current_timestamp
 );
 
+insert into roles (name)
+values ('ROLE_USER'),
+       ('ROLE_ADMIN');
+
 CREATE TABLE users_roles
 (
     user_id     bigint not null references users (id),
     role_id     bigint not null references roles (id),
     primary key (user_id, role_id)
 );
+
+insert into users_roles (user_id, role_id)
+values (1, 1),
+       (2, 1),
+       (3, 2);
 
 CREATE TABLE orders
 (
@@ -49,6 +63,12 @@ CREATE TABLE orders
     updated_at      timestamp default current_timestamp
 );
 
+insert into orders (order_name, total_price, user_id, address, phone)
+
+values  ('Test_order_1', 105, 1L, 'address_test1', 'phone_test1'),
+        ('Test_order_2', 530, 2L, 'address_test2', 'phone_test2'),
+        ('Test_order_3', 484, 3L, 'address_test3', 'phone_test3');
+
 CREATE TABLE order_items
 (
     id                  bigserial primary key,
@@ -61,14 +81,12 @@ CREATE TABLE order_items
     updated_at          timestamp default current_timestamp
 );
 
-insert into roles (name)
-values ('ROLE_USER'),
-       ('ROLE_ADMIN');
+insert into order_items (quantity, price_per_product, price, order_id, product_id)
+values  (1, 25, 25, 1L, 1L),
+        (1, 80, 80, 1L, 2L),
+        (1, 80, 80, 2L, 2L),
+        (1, 450, 450, 2L, 3L),
+        (1, 450, 450, 3L, 3L),
+        (1, 34, 34, 3L, 4L);
 
-insert into users (username, password, email)
-values ('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'bob_johnson@gmail.com'),
-       ('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'john_johnson@gmail.com');
 
-insert into users_roles (user_id, role_id)
-values (1, 1),
-       (2, 2);
