@@ -22,27 +22,37 @@ public class CartController {
 
     @GetMapping("/{uuid}/merge")
     public void mergeCarts(Principal principal, @PathVariable String uuid) {
-        cartService.merge(principal, uuid);
+        cartService.merge(
+                getCurrentCartUuid(principal, null),
+                getCurrentCartUuid(null, uuid)
+        );
     }
 
     @GetMapping("/{uuid}")
     public Cart showCart(Principal principal, @PathVariable String uuid) {
-        return cartService.getCartForCurrentUser(principal, uuid);
+        return cartService.getCurrentCart(getCurrentCartUuid(principal, uuid));
     }
 
     @GetMapping("/{uuid}/add/{productId}")
     public void addToCart(Principal principal, @PathVariable String uuid, @PathVariable Long productId) {
-        cartService.addItem(principal, uuid, productId);
+        cartService.addToCart(getCurrentCartUuid(principal, uuid), productId);
     }
 
     @GetMapping("/{uuid}/decrement/{productId}")
     public void decrementItem(Principal principal, @PathVariable String uuid, @PathVariable Long productId) {
-        cartService.decrementItem(principal, uuid, productId);
+        cartService.decrementItem(getCurrentCartUuid(principal, uuid), productId);
     }
 
     @GetMapping("/{uuid}/remove/{productId}")
     public void removeItem(Principal principal, @PathVariable String uuid, @PathVariable Long productId) {
-        cartService.removeItem(principal, uuid, productId);
+        cartService.removeItemFromCart(getCurrentCartUuid(principal, uuid), productId);
+    }
+
+    private String getCurrentCartUuid(Principal principal, String uuid) {
+        if (principal != null) {
+            return cartService.getCartUuidFromSuffix(principal.getName());
+        }
+        return cartService.getCartUuidFromSuffix(uuid);
     }
 }
 
