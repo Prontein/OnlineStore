@@ -1,36 +1,31 @@
 package ru.geekbrains.web.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "comments")
 @Data
-@NamedQueries({
-        @NamedQuery(name = "Product.findByIdWithComments", query = "SELECT u FROM Product u JOIN FETCH u.productComments WHERE u.id = :id")
-})
-public class Product {
+@NoArgsConstructor
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "username")
+    private String username;
 
-    @Column(name = "price")
-    private int price;
+    @Column(name = "consumer")
+    private String consumer;
 
-    @OneToMany(mappedBy = "product")
-    private List<OrderItem> orderItems;
-
-    @OneToMany(mappedBy = "product")
-    private List<Comment> productComments;
+    @Column(name = "content")
+    private String content;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -39,4 +34,14 @@ public class Product {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    public Comment(String consumer, String content, String username) {
+        this.consumer = consumer;
+        this.content = content;
+        this.username = username;
+    }
 }

@@ -25,6 +25,7 @@ import java.util.List;
                 )
         }
 )
+
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +38,7 @@ public class Order {
     @Column(name = "total_price")
     private int totalPrice;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL/*, fetch = FetchType.LAZY*/)
     private List<OrderItem> orderItems;
 
     @ManyToOne
