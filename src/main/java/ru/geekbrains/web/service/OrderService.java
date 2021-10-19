@@ -20,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+
 public class OrderService {
     private final CartService cartService;
     private final ProductService productService;
@@ -31,7 +32,7 @@ public class OrderService {
     public void createOrder(Principal principal, OrderDetailsDTO orderDetailsDTO) {
         User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("Unable to find user by username: " + principal.getName()));
 
-        Cart cart = cartService.getCartForCurrentUser(principal, null);
+        Cart cart = cartService.getCurrentCart(cartService.getCartUuidFromSuffix(user.getUsername()));
         Order order = new Order();
         order.setUser(user);
         order.setAddress(orderDetailsDTO.getAddress());
@@ -54,7 +55,8 @@ public class OrderService {
 
         order.setOrderItems(orderItems);
         save(order);
-        cartService.clearCart(principal, null);
+        cart.clear();
+        cartService.updateCart(cartService.getCartUuidFromSuffix(user.getUsername()), cart);
     }
 
     public void save (Order order) {
@@ -64,4 +66,5 @@ public class OrderService {
     public List<Order> findAllByUsername (String username) {
         return orderRepository.findAllByUsername(username);
     }
+
 }
