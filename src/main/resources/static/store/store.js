@@ -8,7 +8,10 @@ angular.module('storefront').controller('storeController', function ($scope, $ht
             url: contextPath + 'api/v1/products',
             method: 'GET',
             params: {
-                p: pageIndex
+                p: pageIndex,
+                title: $scope.filter ? $scope.filter.title : null,
+                min_price: $scope.filter ? $scope.filter.min_price : null,
+                max_price: $scope.filter ? $scope.filter.max_price : null
             }
         }).then(function (response) {
             console.log(response);
@@ -34,8 +37,8 @@ angular.module('storefront').controller('storeController', function ($scope, $ht
         return arr;
     }
 
-    $scope.navToEditProductPage = function(productId) {
-        $location.path('edit_product/' + productId);
+    $scope.navToInfoProductPage = function(productId) {
+        $location.path('product_info/' + productId);
     }
 
     $scope.loadProducts(currentPageIndex);

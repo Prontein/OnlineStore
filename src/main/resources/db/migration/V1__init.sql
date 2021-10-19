@@ -12,9 +12,22 @@ insert into products (title, price) values ('Onion', 34), ('Garlic', 40), ('Pepp
 insert into products (title, price) values ('Meat', 600), ('Spices', 225), ('Water', 91), ('Apple', 65), ('Orange', 75);
 insert into products (title, price) values ('Juice', 165), ('Lemon', 68), ('Corn', 195), ('Tomato', 130), ('Cabbage', 170);
 
+create table comments
+(
+    id                  bigserial primary key,
+    username            varchar(30) not null,
+    consumer            varchar(30) not null,
+    content             varchar(255),
+    product_id          bigint REFERENCES products (id),
+    created_at          timestamp default current_timestamp,
+    updated_at          timestamp default current_timestamp
+);
+
 create table users
 (
     id         bigserial primary key,
+    first_name varchar(80) not null,
+    last_name  varchar(80) not null,
     username   varchar(30) not null,
     password   varchar(80) not null,
     email      varchar(50) unique,
@@ -65,9 +78,9 @@ insert into roles (name)
 values ('ROLE_USER'),
        ('ROLE_ADMIN');
 
-insert into users (username, password, email)
-values ('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'bob_johnson@gmail.com'),
-       ('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'john_johnson@gmail.com');
+insert into users (username, first_name, last_name, password, email)
+values ('user', 'Bob', 'Johnson', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'bob_johnson@gmail.com'),
+       ('admin', 'John', 'Johnson', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'john_johnson@gmail.com');
 
 insert into users_roles (user_id, role_id)
 values (1, 1),

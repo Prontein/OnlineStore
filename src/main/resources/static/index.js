@@ -14,13 +14,13 @@
                 templateUrl: 'store/store.html',
                 controller: 'storeController'
             })
-            .when('/edit_product/:productId', {
-                templateUrl: 'edit_product/edit_product.html',
-                controller: 'editProductController'
+            .when('/product_info/:productId', {
+                templateUrl: 'product_info/product_info.html',
+                controller: 'productInfoController'
             })
-            .when('/create_product', {
-                templateUrl: 'create_product/create_product.html',
-                controller: 'createProductController'
+            .when('/admin', {
+                templateUrl: 'admin/admin.html',
+                controller: 'adminController'
             })
             .when('/cart', {
                 templateUrl: 'cart/cart.html',
@@ -34,9 +34,9 @@
                 templateUrl: 'registration/registration.html',
                 controller: 'registrationUserController'
             })
-            .when('/orders', {
-                templateUrl: 'orders/orders.html',
-                controller: 'ordersController'
+            .when('/profile', {
+                templateUrl: 'profile/profile.html',
+                controller: 'profileController'
             })
             .otherwise({
                 redirectTo: '/'
@@ -87,6 +87,7 @@ angular.module('storefront').controller('indexController', function ($rootScope,
         if ($scope.user.password) {
             $scope.user.password = null;
         }
+        $location.path('/');
     };
 
     $scope.clearUser = function () {
