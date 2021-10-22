@@ -1,0 +1,43 @@
+<div>
+    <h3 align="middle">Информация о продукте</h3>
+    <p>{{'ID продукта: ' + product_comment.id}}</p>
+    <p>{{'Название продукта: ' + product_comment.title}}</p>
+    <p>{{'Цена продукта: ' + product_comment.price}}</p>
+<!--    <p>{{'ID продукта: ' + select_product.id}}</p>-->
+<!--    <p>{{'Название продукта: ' + select_product.title}}</p>-->
+<!--    <p>{{'Цена продукта: ' + select_product.price}}</p>-->
+
+    <h1 align="middle">Отзывы</h1>
+    <table class="table">
+        <thead>
+        <tr align="center">
+            <th class="th" width="100">ID</th>
+            <th class="th" width="300">Имя покупателя</th>
+            <th class="th" width="300">Отзыв</th>
+        </tr>
+        </thead>
+<!--        <tbody> <tr ng-repeat="i in select_product.comments">-->
+        <tbody> <tr ng-repeat="i in product_comment.comments">
+            <td class="td">{{i.id}}</td>
+            <td class="td">{{i.consumer}}</td>
+            <td class="td">{{i.content}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-outline-secondary btn-sm" ng-show="product_comment.status" ng-click="showBlock = ! showBlock">
+        Оставить отзыв</button>
+
+    <div ng-show="showBlock">
+        <form novalidate ng-submit="updateProduct()">
+            <input class="form-control" type="number" hidden placeholder="ID"  ng-model="product_comment.id">
+            <p></p>
+            <input class="form-control" type="text" placeholder="Имя покупателя"  ng-model="product_comment.consumer">
+            <p></p>
+            <input class="form-control" type="text" placeholder="Ваш отзыв"  ng-model="product_comment.content">
+            <p></p>
+
+            <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+        </form>
+    </div>
+</div>
