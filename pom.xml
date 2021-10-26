@@ -7,6 +7,9 @@
         <module>Cart-Service</module>
 		<module>Core-Service</module>
 		<module>API</module>
+        <module>Front-Service</module>
+		<module>Gateway</module>
+		<module>Auth-Service</module>
 	</modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
