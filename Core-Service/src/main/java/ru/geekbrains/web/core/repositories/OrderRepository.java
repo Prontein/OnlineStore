@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.geekbrains.web.core.model.Order;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -14,6 +15,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @EntityGraph(value = "orders.for-front")
     List<Order> findAllByUsername(String username);
 
+    Optional<Order> findByIdAndUsername(Long id, String username);
+
+//    Order findById(Long id);
+//    Optional<Order> findById(Long id);
 //    @Query(nativeQuery = true, value = "select case when count(o) > 0 then true else false end " +
 //            "from orders o where o.user.user_id = :userId and o.order_id in (select i.order.order_id from order_items i where i.product.product_id = :productId)")
 //    boolean hasOrder(@Param("userId") Long userID, @Param("productId") Long productId);

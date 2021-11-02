@@ -12,6 +12,7 @@ import ru.geekbrains.web.core.repositories.ProductRepository;
 import ru.geekbrains.web.core.repositories.specifications.ProductSpecifications;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,11 +52,11 @@ public class ProductService {
     private Specification<Product> constructSpecification(MultiValueMap<String, String> params) {
         Specification<Product> spec = Specification.where(null);
         if (params.containsKey(FILTER_MIN_PRICE) && !params.getFirst(FILTER_MIN_PRICE).isBlank()) {
-            int minPrice = Integer.parseInt(params.getFirst(FILTER_MIN_PRICE));
+            BigDecimal minPrice = BigDecimal.valueOf(Long.parseLong(params.getFirst(FILTER_MIN_PRICE)));
             spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(minPrice));
         }
         if (params.containsKey(FILTER_MAX_PRICE) && !params.getFirst(FILTER_MAX_PRICE).isBlank()) {
-            int maxPrice = Integer.parseInt(params.getFirst(FILTER_MAX_PRICE));
+            BigDecimal maxPrice = BigDecimal.valueOf(Long.parseLong(params.getFirst(FILTER_MAX_PRICE)));
             spec = spec.and(ProductSpecifications.priceLesserOrEqualsThan(maxPrice));
         }
         if (params.containsKey(FILTER_TITLE) && !params.getFirst(FILTER_TITLE).isBlank()) {

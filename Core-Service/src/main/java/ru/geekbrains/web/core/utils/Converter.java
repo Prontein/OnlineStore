@@ -20,7 +20,7 @@ public class Converter {
     }
 
     public OrderDTO orderToDto(Order order) {
-        return new OrderDTO(order.getId(), order.getOrderItems().stream().map(oi -> orderItemToDTO(oi)).collect(Collectors.toList()), order.getAddress(), order.getPhone(), order.getTotalPrice(), order.getOrderName());
+        return new OrderDTO(order.getId(), order.getOrderItems().stream().map(oi -> orderItemToDTO(oi)).collect(Collectors.toList()), order.getAddress(), order.getPhone(), order.getTotalPrice(), order.getOrderName(), order.getStatus());
     }
 
     public ProductInfoDTO productInfoDTO(Product product, String username, boolean status) {
