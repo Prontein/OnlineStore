@@ -9,12 +9,9 @@ import ru.geekbrains.web.auth.model.User;
 import ru.geekbrains.web.auth.services.UserService;
 
 
-import java.security.Principal;
-
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 public class UserController {
     private final UserService userService;
 

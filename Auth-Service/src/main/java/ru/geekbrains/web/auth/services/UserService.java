@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.geekbrains.web.api.dtos.UserDTO;
-//import ru.geekbrains.web.core.exceptions.UserAlreadyExistException;
+
+import ru.geekbrains.web.auth.exceptions.UserAlreadyExistException;
 import ru.geekbrains.web.auth.model.Role;
 import ru.geekbrains.web.auth.model.User;
 import ru.geekbrains.web.auth.repositories.RoleRepository;
@@ -44,18 +45,20 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-//    public User registerNewUserAccount(UserDTO userDTO) {
-//        if (userExists(userDTO.getUsername())) {
-//            throw new UserAlreadyExistException("Пользователь с таким именем уже существует: " + userDTO.getUsername());
-//        }
-//        User user = new User();
-//        user.setUsername(userDTO.getUsername());
-//        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-//        user.setEmail(userDTO.getEmail());
-//        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
-//
-//        return userRepository.save(user);
-//    }
+    public User registerNewUserAccount(UserDTO userDTO) {
+        if (userExists(userDTO.getUsername())) {
+            throw new UserAlreadyExistException("Пользователь с таким именем уже существует: " + userDTO.getUsername());
+        }
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setEmail(userDTO.getEmail());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+
+        return userRepository.save(user);
+    }
 
     private boolean userExists(String username) {
         return userRepository.findByUsername(username).isPresent();
