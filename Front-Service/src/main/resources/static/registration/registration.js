@@ -1,5 +1,5 @@
 angular.module('storefront').controller('registrationUserController', function ($scope, $http, $location) {
-    const contextPath = 'http://localhost:5555/core/';
+    const contextPath = 'http://localhost:5555/auth/';
 
     $scope.registrationUser = function () {
         if ($scope.new_user == null) {
@@ -10,7 +10,7 @@ angular.module('storefront').controller('registrationUserController', function (
             alert('Пароли не совпадают');
             return;
         }
-        $http.post(contextPath + 'registration', $scope.new_user)
+        $http.post(contextPath + 'api/v1/auth/registration', $scope.new_user)
             .then(function successCallback (response) {
                 $scope.new_user = null;
                 alert("Регистрация прошла успешно");

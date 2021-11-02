@@ -13,11 +13,9 @@ angular.module('storefront').controller('orderConfirmationController', function 
             url: 'http://localhost:5555/core/api/v1/orders',
             method: 'POST',
             data: $scope.orderDetails
-
-        })
-        .then(function (response) {
-            alert("Ваш заказ успешно сформирован");
-            $location.path('/');
+        }).then(function (response) {
+           var orderId = response.data.value;
+           $location.path('/order_pay/' + orderId);
         });
     }
 
