@@ -2,7 +2,7 @@ create table products
 (
     id          bigserial primary key,
     title       varchar(255),
-    price       int,
+    price       decimal,
     created_at  timestamp default current_timestamp,
     updated_at  timestamp default current_timestamp
 );
@@ -54,10 +54,11 @@ CREATE TABLE orders
 (
     id              bigserial primary key,
     order_name      VARCHAR(255),
-    total_price     INT,
+    total_price     Decimal,
     username        VARCHAR(255) references users(username),
     address         VARCHAR(255),
     phone           VARCHAR(255),
+    order_status    VARCHAR(30),
     created_at      timestamp default current_timestamp,
     updated_at      timestamp default current_timestamp
 );
@@ -66,8 +67,8 @@ CREATE TABLE order_items
 (
     id                  bigserial primary key,
     quantity            INT,
-    price_per_product   INT,
-    price               INT,
+    price_per_product   Decimal,
+    price               Decimal,
     order_id            bigint REFERENCES orders (id),
     product_id          bigint REFERENCES products (id),
     created_at          timestamp default current_timestamp,
