@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class ProductController {
     private final ProductService productService;
     private final CommentService commentService;
@@ -42,11 +41,6 @@ public class ProductController {
         Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found"));
         return converter.productToDto(product);
     }
-
-//    @DeleteMapping("/{id}")
-//    public void deleteById(@PathVariable Long id) {
-//        productService.deleteById(id);
-//    }
 
     @PostMapping
     public ProductDTO newProduct(@RequestBody @Validated ProductDTO productDTO, BindingResult bindingResult) {

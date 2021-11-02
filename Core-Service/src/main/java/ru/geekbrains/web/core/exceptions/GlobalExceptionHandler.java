@@ -19,8 +19,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new MarketError(e.getMessages()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler
-    public ResponseEntity<?> catchUserAlreadyExistException(UserAlreadyExistException e) {
-        return new ResponseEntity<>(new UserAlreadyExistException(e.getMessages()), HttpStatus.BAD_REQUEST);
-    }
 }

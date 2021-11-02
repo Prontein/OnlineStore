@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,9 +37,9 @@ public class Order {
     private String orderName;
 
     @Column(name = "total_price")
-    private int totalPrice;
+    private BigDecimal totalPrice;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL/*, fetch = FetchType.LAZY*/)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
     @Column
@@ -49,6 +50,9 @@ public class Order {
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "order_status")
+    private String status;
 
     @CreationTimestamp
     @Column(name = "created_at")

@@ -18,7 +18,8 @@ public class CartServiceIntegration {
 
     public CartDto getUserCartDto(String username) {
         CartDto cart = cartServiceWebClient.get()
-                .uri("/api/v1/cart/" + username)
+                .uri("/api/v1/cart/0" + username)
+                .header("username", username)
                 .retrieve()
                 .bodyToMono(CartDto.class)
                 .block();
@@ -27,8 +28,10 @@ public class CartServiceIntegration {
 
     public void clearUserCart(String username) {
         cartServiceWebClient.get()
-                .uri("/api/v1/cart/clear" + username)
-                .exchange()
+                .uri("/api/v1/cart/0/clear")
+                .header("username", username)
+                .retrieve()
+                .toBodilessEntity()
                 .block();
     }
 }
