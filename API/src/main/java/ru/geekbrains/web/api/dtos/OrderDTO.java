@@ -1,15 +1,16 @@
 package ru.geekbrains.web.api.dtos;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OrderDTO {
     private Long id;
     private List<OrderItemDTO> items;
     private String address;
     private String phone;
-    private int price;
+    private BigDecimal price;
     private String orderName;
+    private String status;
 
     public Long getId() {
         return id;
@@ -43,11 +44,11 @@ public class OrderDTO {
         this.phone = phone;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -59,15 +60,28 @@ public class OrderDTO {
         this.orderName = orderName;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public OrderDTO() {
     }
 
-    public OrderDTO (Long Id, List<OrderItemDTO> items, String address, String phone, int totalPrice, String orderName) {
+    public OrderDTO(String status) {
+        this.status = status;
+    }
+
+    public OrderDTO (Long id, List<OrderItemDTO> items, String address, String phone, BigDecimal totalPrice, String orderName, String status) {
         this.id = id;
         this.items = items;
         this.address = address;
         this.phone = phone;
         this.price = totalPrice;
         this.orderName = orderName;
+        this.status = status;
     }
 }

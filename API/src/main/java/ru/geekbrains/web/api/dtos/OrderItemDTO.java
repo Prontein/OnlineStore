@@ -1,12 +1,14 @@
 package ru.geekbrains.web.api.dtos;
 
 
+import java.math.BigDecimal;
+
 public class OrderItemDTO {
     private Long productId;
     private String productTitle;
     private int quantity;
-    private int pricePerProduct;
-    private int price;
+    private BigDecimal pricePerProduct;
+    private BigDecimal price;
 
     public OrderItemDTO() {
     }
@@ -35,23 +37,23 @@ public class OrderItemDTO {
         this.quantity = quantity;
     }
 
-    public int getPricePerProduct() {
+    public BigDecimal getPricePerProduct() {
         return pricePerProduct;
     }
 
-    public void setPricePerProduct(int pricePerProduct) {
+    public void setPricePerProduct(BigDecimal pricePerProduct) {
         this.pricePerProduct = pricePerProduct;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public OrderItemDTO(Long id, String title, int quantity, int pricePerProduct, int price) {
+    public OrderItemDTO(Long id, String title, int quantity, BigDecimal pricePerProduct, BigDecimal price) {
         this.productId = id;
         this.productTitle = title;
         this.quantity = quantity;
@@ -64,6 +66,6 @@ public class OrderItemDTO {
         if(quantity<0) {
             quantity=0;
         }
-        price = pricePerProduct * quantity;
+        price = pricePerProduct.multiply(new BigDecimal(quantity));
     }
 }

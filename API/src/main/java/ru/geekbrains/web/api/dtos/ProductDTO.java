@@ -4,6 +4,7 @@ package ru.geekbrains.web.api.dtos;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 
 public class ProductDTO {
@@ -14,7 +15,7 @@ public class ProductDTO {
     private String title;
 
     @Min(value = 1, message = "Минимальная цена продукта не может быть менее 1")
-    private int price;
+    private BigDecimal price;
 
     public ProductDTO() {
     }
@@ -35,17 +36,15 @@ public class ProductDTO {
         this.title = title;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-
-
-    public ProductDTO(Long id, String title, int price) {
+    public ProductDTO(Long id, String title, BigDecimal price) {
         this.id = id;
         this.title = title;
         this.price = price;

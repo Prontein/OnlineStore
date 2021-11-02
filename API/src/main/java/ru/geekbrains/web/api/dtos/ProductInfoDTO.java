@@ -5,23 +5,16 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 public class ProductInfoDTO {
     private Long id;
 
-//    @NotNull(message = "Имя покупателя не указано")
-//    @Length(min = 3, max = 30, message = "Название продукта должно содержать 3 - 30 символов")
     private String username;
-//    private String consumer;
 
-//    @NotNull(message = "Невозможно отправить пустой отзыв")
-//    @Length(min = 3, max = 500, message = "Отзыв о продукте должен содержать 3 - 500 символов")
     private boolean status;
-//    private String content;
-
 
     public ProductInfoDTO() {
     }
@@ -58,11 +51,11 @@ public class ProductInfoDTO {
         this.title = title;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -79,11 +72,11 @@ public class ProductInfoDTO {
     private String title;
 
     @Min(value = 1, message = "Минимальная цена продукта не может быть менее 1")
-    private int price;
+    private BigDecimal price;
 
     private List<CommentDTO> comments;
 
-    public ProductInfoDTO(Long productId, String productTitle, int price, List<CommentDTO> comments, String username, boolean status) {
+    public ProductInfoDTO(Long productId, String productTitle, BigDecimal price, List<CommentDTO> comments, String username, boolean status) {
         this.id = productId;
         this.title = productTitle;
         this.price = price;
