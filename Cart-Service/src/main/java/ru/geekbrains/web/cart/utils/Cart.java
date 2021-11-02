@@ -5,6 +5,7 @@ import ru.geekbrains.web.api.dtos.OrderItemDTO;
 import ru.geekbrains.web.api.dtos.ProductDTO;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 public class Cart {
     private List<OrderItemDTO> items;
-    private int totalPrice;
+    private BigDecimal totalPrice;
 
     public Cart() {
         this.items = new ArrayList<>();
@@ -52,13 +53,13 @@ public class Cart {
 
     public void clear() {
         items.clear();
-        totalPrice = 0;
+        totalPrice = new BigDecimal("0.00");
     }
 
     private void recalculate() {
-        totalPrice = 0;
+        totalPrice = new BigDecimal("0.00");
         for (OrderItemDTO i : items) {
-            totalPrice += i.getPrice();
+            totalPrice = totalPrice.add(i.getPrice());
         }
     }
 
